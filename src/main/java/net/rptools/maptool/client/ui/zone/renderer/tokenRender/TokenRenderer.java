@@ -20,6 +20,7 @@ import net.rptools.lib.CodeTimer;
 import net.rptools.lib.MD5Key;
 import net.rptools.maptool.client.ui.zone.ZoneViewModel.TokenPosition;
 import net.rptools.maptool.client.ui.zone.renderer.RenderHelper;
+import net.rptools.maptool.client.video.VideoPlaybackService;
 import net.rptools.maptool.model.*;
 import net.rptools.maptool.util.ImageManager;
 import net.rptools.maptool.util.TokenUtil;
@@ -56,6 +57,18 @@ public class TokenRenderer {
   private BufferedImage getRenderImage(Token token) {
     // get token image, using image table if present
     MD5Key tokenImageId = token.getTokenImageAssetId();
+    Asset asset = AssetManager.getAsset(tokenImageId);
+    if (asset != null
+        && asset.getType() == Asset.Type.VIDEO
+        && asset.getData() != null
+        && asset.getData().length > 0) {
+      BufferedImage frame =
+          VideoPlaybackService.getInstance().currentFrame(asset, renderHelper.getImageObserver());
+      if (frame != null) {
+        return frame;
+      }
+      // Fall through to ImageManager so the caller gets a placeholder while frame 0 is decoding.
+    }
     return ImageManager.getImage(tokenImageId, renderHelper.getImageObserver());
   }
 
