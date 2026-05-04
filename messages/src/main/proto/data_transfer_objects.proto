@@ -574,6 +574,7 @@ enum AssetDtoType {
   PDF = 10;
   MTLIB = 11;
   INVAlID = 12;
+  VIDEO = 13;
 }
 
 message AssetDto {

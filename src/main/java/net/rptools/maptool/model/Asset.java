@@ -62,6 +62,8 @@ public final class Asset {
     IMAGE(false, "", Asset::createImageAsset), // extension is determined from format.
     /** The {@code Asset} is an audio file. */
     AUDIO(false, "", Asset::createAudioAsset), // extension is determined from format.
+    /** The {@code Asset} is a video file. */
+    VIDEO(false, "mp4", Asset::createVideoAsset),
     /** The {@code Asset} is a Handlebars template. */
     HANDLEBARS(true, "hbs", Asset::createHandlebarsAsset),
     /** The {@code Asset} is an HTML string. */
@@ -162,6 +164,7 @@ public final class Asset {
       return switch (contentType) {
         case "audio" -> Type.AUDIO;
         case "image" -> Type.IMAGE;
+        case "video" -> Type.VIDEO;
         case "text" ->
             switch (subType) {
               case "html" -> {
@@ -262,6 +265,23 @@ public final class Asset {
    */
   public static Asset createAudioAsset(String name, byte[] audio) {
     return new Asset(null, name, audio, Type.AUDIO, Type.AUDIO.getDefaultExtension(), false);
+  }
+
+  /**
+   * Create an {@code Asset} for a video file.
+   *
+   * @param name The name of the {@code Asset}; the filename is used to determine the extension.
+   * @param video the video bytes.
+   * @return the {@code Asset} that represents the video.
+   */
+  public static Asset createVideoAsset(String name, byte[] video) {
+    String ext = FilenameUtils.getExtension(name);
+    if (ext == null || ext.isEmpty()) {
+      ext = Type.VIDEO.getDefaultExtension();
+    } else {
+      ext = ext.toLowerCase();
+    }
+    return new Asset(null, name, video, Type.VIDEO, ext, false);
   }
 
   /**

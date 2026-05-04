@@ -403,7 +403,7 @@ public class TransferableHelper extends TransferHandler {
 
     String subType = mediaType.getSubtype();
     return switch (contentType) {
-      case "audio", "image" -> true;
+      case "audio", "image", "video" -> true;
       case "text" ->
           switch (subType) {
             case "html", "markdown", "x-web-markdown", "plain", "javascript", "css" -> true;
