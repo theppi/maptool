@@ -420,6 +420,12 @@ dependencies {
     implementation(libs.rptools.dice.roller)
     implementation(libs.noiselib)
 
+    // Video decoding (FFmpeg via JavaCV). javacv is declared non-transitive so we
+    // skip OpenCV/OpenBLAS/realsense/etc.; we only need the FFmpeg presets.
+    implementation(libs.javacv) { transitive = false }
+    implementation(libs.javacpp)
+    implementation(libs.ffmpeg.platform)
+
     // libgdx
     implementation(libs.bundles.gdx)
     implementation(variantOf(libs.gdx.platform) { classifier('natives-desktop')})

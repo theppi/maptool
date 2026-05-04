@@ -11,6 +11,7 @@ graalvm-js = "21.2.0"
 pdfbox = "3.0.0"
 protoc = "4.31.1"
 gdx = "1.13.5"
+javacv = "1.5.11"
 
 [libraries]
 findbugs-jsr305 = { group = "com.google.code.findbugs", name = "jsr305", version = "3.0.2" }
@@ -143,6 +144,13 @@ reflections = { group = "org.reflections", name = "reflections", version = "0.10
 yasb = { group = "yasb", name = "yasb", version = "0.2-21012007" }
 # For map noise
 noiselib = { group = "com.github.cwisniew", name = "NoiseLib", version = "1.0.0" }
+
+# Video decoding (FFmpeg via JavaCV) for map-canvas video tokens. javacv pulls a long
+# list of optional sibling presets (OpenCV, OpenBLAS, librealsense, …) we don't need;
+# we declare it non-transitive and pull only javacpp + ffmpeg-platform ourselves.
+javacv = { group = "org.bytedeco", name = "javacv", version.ref = "javacv" }
+javacpp = { group = "org.bytedeco", name = "javacpp", version.ref = "javacv" }
+ffmpeg-platform = { group = "org.bytedeco", name = "ffmpeg-platform", version = "7.1-1.5.11" }
 
 # JS support for macros
 graalvm-js = { group = "org.graalvm.js", name = "js", version.ref = "graalvm-js" }
